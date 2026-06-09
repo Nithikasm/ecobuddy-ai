@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🌍 EcoBuddy</h1>
+    <p>Welcome to your Personal Carbon Footprint Coach!</p>
+
+<form method="POST">
+
+    <label>Daily Travel Distance (km):</label>
+    <br><br>
+
+    <input type="number" name="distance" placeholder="Enter distance">
+    <br><br>
+
+    <label>Transport Type:</label>
+    <br><br>
+
+    <select name="transport">
+        <option>Car</option>
+        <option>Bus</option>
+        <option>Bike</option>
+        <option>Train</option>
+        <option>Walk</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Calculate My Footprint</button>
+
+    <p>{{ result }}</p>
+</form>
+
+</body>
+</html>
