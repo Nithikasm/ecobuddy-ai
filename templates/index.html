@@ -2,38 +2,134 @@
 <html>
 <head>
     <title>EcoBuddy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>🌍 EcoBuddy</h1>
-    <p>Welcome to your Personal Carbon Footprint Coach!</p>
 
-<form method="POST">
+<!-- HEADER -->
+<div class="nav">
+    <div class="logo">
+        🌿 EcoBuddy
+    </div>
 
-    <label>Daily Travel Distance (km):</label>
-    <br><br>
+    <button class="nav-btn" onclick="window.location.href='/assessment'">
+Start Assessment
+</button>
+</div>
 
-    <input type="number" name="distance" placeholder="Enter distance">
-    <br><br>
+<!-- HERO SECTION -->
+<div class="hero">
 
-    <label>Transport Type:</label>
-    <br><br>
+    <div class="hero-left">
 
-    <select name="transport">
-        <option>Car</option>
-        <option>Bus</option>
-        <option>Bike</option>
-        <option>Train</option>
-        <option>Walk</option>
-    </select>
+        <div class="badge">✦ AI-POWERED COACH</div>
 
-    <br><br>
+        <h1>
+            Make every choice<br>
+            <span>count for the planet.</span>
+        </h1>
 
-    <button type="submit">Calculate My Footprint</button>
+        <p class="subtitle">
+            EcoBuddy turns your daily habits into a clear carbon footprint,
+            an Eco Score, and a personal plan to reduce your impact — in under 2 minutes.
+        </p>
 
-    <p>{{ result }}</p>
-    <p>{{ recommendation }}</p>
-</form>
+        <div class="cta">
+            <button class="primary-btn" onclick="window.location.href='/assessment'">
+Start Your Assessment →
+</button>
+            <button class="secondary-btn" onclick="document.getElementById('how-it-works').scrollIntoView({behavior: 'smooth'})">
+    How it works
+</button>
+        </div>
+
+    </div>
+
+   <div class="hero-right">
+    <div class="hero-image"></div>
+</div>
+</div><!--end of hero---->
+
+<!-- HOW IT WORKS SECTION -->
+<div class="how-section" id="how-it-works">
+
+    <div class="how-container">
+
+        <div class="how-kicker">HOW IT WORKS</div>
+
+        <h2 class="how-title">
+            Three simple steps to a greener you.
+        </h2>
+
+        <div class="card-grid">
+
+            <!-- CARD 1 -->
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="icon">🌿</div>
+                <h3>Share your habits</h3>
+                <p>Tell us about your transport, electricity usage, and daily lifestyle choices.</p>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="icon">⚡</div>
+                <h3>AI calculates impact</h3>
+                <p>Our system converts your inputs into accurate carbon emission estimates.</p>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="icon">🍽️</div>
+                <h3>Get your Eco Score</h3>
+                <p>Receive personalized insights and suggestions to reduce your footprint.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><!--end of how-it-works-->
+
+<!-- CTA SECTION -->
+<div class="cta-section">
+
+    <div class="cta-box">
+
+        <h2>Your footprint, in your hands.</h2>
+
+        <p>
+            Free. No login required. Just honest insights and clear steps.
+        </p>
+
+        <button class="cta-main-btn" onclick="window.location.href='/assessment'">
+Begin Your Journey →
+</button>
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<hr class="footer-line">
+
+<div class="footer">
+
+    <div class="footer-left">
+        🌿 <span>EcoBuddy</span>
+    </div>
+
+    <div class="footer-right">
+        Built with ❤️ by Nithika
+    </div>
+
+</div>
 
 </body>
 </html>

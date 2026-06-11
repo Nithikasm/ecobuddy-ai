@@ -1,31 +1,443 @@
+html {
+    scroll-behavior: smooth;
+}
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #e8f5e9;
-    padding-top: 100px;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f6f8f3;
+    color: #1f2d1f;
+    }
+
+/* NAVBAR */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
 }
 
-h1 {
-    color: #2e7d32;
-    font-size: 3rem;
+.logo {
+    font-size: 20px;
+    font-weight: bold;
 }
 
-p {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-/* Style for the button */
-button {
-    background-color: #2e7d32;
+.nav-btn {
+    background: #1f4d2e;
     color: white;
     border: none;
     padding: 12px 24px;
-    font-size: 16px;
-    border-radius: 8px;
+    border-radius: 25px;
     cursor: pointer;
 }
 
-button:hover {
-    opacity: 0.9;
+/* HERO LAYOUT */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 70px 80px;
+    gap: 60px;
+}
+
+/* LEFT SIDE */
+.hero-left {
+    flex: 0 0 60%;
+}
+
+.hero-right {
+    flex: 0 0 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image {
+    margin-top: -20px;
+    width: 100%;
+    height: 480px;
+    background-image: url("/static/forest.jpg");
+    background-size: cover;
+    background-position: left center;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+
+    /* ✨ animation */
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.hero-image:hover {
+    transform: translateY(-10px) scale(1.02);
+    transition: all 0.1s ease;
+}
+
+.badge {
+    display: inline-block;
+    background: #ece7d3;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.hero-left h1 {
+    font-size: 60px;
+    font-weight: 1000;
+    line-height: 0.9;
+    margin-bottom: 10px;
+}
+
+.hero-left h1 span {
+    color: #1f4d2e;
+}
+
+.subtitle {
+    margin-top: 0;
+    font-size: 18px;
+    color: #555;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+/* CTA BUTTONS */
+.cta {
+    display: flex;
+    gap: 12px;
+}
+
+.primary-btn {
+    background: #1f4d2e;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.secondary-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 14px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+/* FORM */
+form {
+    background: white;
+    padding: 20px;
+    width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background: #1f4d2e;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* RESULT CARD */
+.card {
+    background: white;
+    width: 280px;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.eco-score {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #1f4d2e;
+    color: white;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+/*How it works*/
+/*SECTION BACKGROUND + SPACING */
+.how-section {
+    background: #F9F6F0;
+    padding: 120px 80px;
+}
+/*Centre Container*/
+.how-container {
+    max-width: 1100px;
+    margin: auto;
+}
+/*Kick Text*/
+.how-kicker {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #5A6560;
+    margin-bottom: 12px;
+}
+/*Main Title*/
+.how-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: #1A1A1A;
+    margin-bottom: 50px;
+    line-height: 1.2;
+}
+/*Card Grid (3 card)*/
+.card-grid {
+    display: flex;
+    gap: 25px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+/*Individual Card style*/
+.step-card {
+    background: #F3EEE4;
+    border-radius: 24px;
+    padding: 30px;
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-6px);
+}
+/*Step Number Badge*/
+.step-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #E0DBD3;
+}
+/*Icon Style*/
+.icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+/*Card Title*/
+.step-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 10px;
+}
+/*Card Description*/
+.step-card p {
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.6;
+}
+/*Footer Section*/
+/*CTA Section BG*/
+.cta-section {
+    background: #F9F6F0;
+    padding: 80px 80px;
+    display: flex;
+    justify-content: center;
+}
+/*Green tea cta box*/
+.cta-box {
+    background: #1B4332;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 24px;
+    padding: 70px 60px;
+    text-align: center;
+}
+/*CTA Title*/
+.cta-box h2 {
+    color: white;
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+/*Cta Subtitle*/
+.cta-box p {
+    color: #E0EADF;
+    font-size: 16px;
+    margin-bottom: 35px;
+}
+/*CTA Button*/
+.cta-main-btn {
+    background: white;
+    color: #1B4332;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 9999px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+/*Footer line*/
+.footer-line {
+    border: none;
+    height: 1px;
+    background: #ddd;
+    margin: 0;
+}
+/*Footer Layout*/
+.footer {
+    background: #F9F6F0;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 80px;
+    align-items: center;
+}
+/*Footer left*/
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #111;
+}
+/*Footer right*/
+.footer-right {
+    font-size: 13px;
+    color: #666;
+}
+/* =========================
+   ASSESSMENT PAGE
+========================= */
+
+.assessment-wrapper {
+    padding: 30px 80px;
+    background: #F9F6F0;
+    min-height: 100vh;
+}
+
+.assessment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.step-indicator {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5A6560;
+}
+
+/* Progress */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e5e0d6;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #1B4332;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+/* Card */
+.assessment-card {
+    background: #F4EFE6;
+    padding: 50px;
+    border-radius: 24px;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Icon */
+.icon-box {
+    width: 50px;
+    height: 50px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+/* Options */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.option {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    transform: translateY(-2px);
+}
+
+.option.selected {
+    background: #1B4332;
+    color: white;
+}
+
+/* Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+#continueBtn {
+    background: #1B4332;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+#continueBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#backBtn {
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
 }

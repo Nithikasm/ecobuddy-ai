@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoBuddy Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="assessment-wrapper">
+
+    <!-- TOP HEADER -->
+    <div class="assessment-header">
+
+        <div class="logo">🌿 EcoBuddy</div>
+
+        <div class="step-indicator">
+            STEP <span id="step-num">1</span> / 9
+        </div>
+
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="assessment-card">
+
+        <!-- ICON -->
+        <div class="icon-box" id="icon">🚗</div>
+
+        <!-- QUESTION -->
+        <h2 id="question">How do you usually travel?</h2>
+
+        <!-- SUBTEXT -->
+        <p id="subtext">Your primary mode of transport for daily commute.</p>
+
+        <!-- OPTIONS -->
+        <div class="options-grid" id="options"></div>
+
+        <!-- BUTTONS -->
+        <div class="nav-buttons">
+
+            <button id="backBtn" onclick="prevStep()">Back</button>
+
+            <button id="continueBtn" onclick="nextStep()" disabled>
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+/* =========================
+   QUESTIONS DATA
+========================= */
+
+const questions = [
+    {
+        icon: "🚗",
+        question: "How do you usually travel?",
+        subtext: "Your primary mode of transport for daily commute.",
+        options: ["Petrol Car", "Diesel Car", "Bus", "Bike", "Train", "Walk"]
+    },
+    {
+        icon: "⚡",
+        question: "How much electricity do you use daily?",
+        subtext: "Approximate usage in kWh per day.",
+        options: ["< 5 kWh", "5–10 kWh", "10–20 kWh", "> 20 kWh"]
+    }
+];
+
+/* =========================
+   STATE
+========================= */
+
+let currentStep = 0;
+let selectedAnswer = null;
+let answers = {};
+
+/* =========================
+   LOAD QUESTION
+========================= */
+
+function loadQuestion() {
+    const q = questions[currentStep];
+
+    document.getElementById("icon").innerText = q.icon;
+    document.getElementById("question").innerText = q.question;
+    document.getElementById("subtext").innerText = q.subtext;
+    document.getElementById("step-num").innerText = currentStep + 1;
+
+    // progress bar
+    let progress = ((currentStep + 1) / 9) * 100;
+    document.getElementById("progress").style.width = progress + "%";
+
+    // reset
+    selectedAnswer = null;
+    document.getElementById("continueBtn").disabled = true;
+
+    // render options
+    const container = document.getElementById("options");
+    container.innerHTML = "";
+
+    q.options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.className = "option";
+        btn.innerText = opt;
+
+        btn.onclick = () => selectOption(btn, opt);
+
+        container.appendChild(btn);
+    });
+}
+
+/* =========================
+   SELECT OPTION
+========================= */
+
+function selectOption(btn, value) {
+    selectedAnswer = value;
+
+    document.querySelectorAll(".option").forEach(o => {
+        o.classList.remove("selected");
+    });
+
+    btn.classList.add("selected");
+
+    document.getElementById("continueBtn").disabled = false;
+}
+
+/* =========================
+   NEXT / BACK
+========================= */
+
+function nextStep() {
+    answers[currentStep] = selectedAnswer;
+
+    if (currentStep < questions.length - 1) {
+        currentStep++;
+        loadQuestion();
+    } else {
+        console.log("FINAL ANSWERS:", answers);
+        alert("Assessment Complete!");
+    }
+}
+
+function prevStep() {
+    if (currentStep > 0) {
+        currentStep--;
+        loadQuestion();
+    }
+}
+
+/* INIT */
+loadQuestion();
+</script>
+
+</body>
+</html>
