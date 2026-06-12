@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoBuddy — Your Carbon Picture</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="premium-report-body">
+
+    <!-- MAIN GRID WRAPPER CONTAINER -->
+    <div class="luxury-report-wrapper">
+        
+        <!-- HEADER NAVIGATION BAR -->
+        <div class="luxury-navbar">
+            <div class="luxury-logo">
+                <span class="logo-leaf-icon">🌿</span>EcoBuddy
+            </div>
+            <a href="/assessment" class="subtle-retake-btn">Retake assessment</a>
+        </div>
+
+        <!-- HERO INTRO LIGHTWEIGHT BLOCK -->
+        <div class="luxury-hero">
+            <div class="luxury-kicker">YOUR RESULTS</div>
+            <h1>Here's your carbon picture.</h1>
+            <p>Your choices map out your unique environmental profile. Below is the full breakdown of your annual running resource impacts along with tailored focus routes to shrink your footprint.</p>
+        </div>
+
+        <!-- KEY METRICS GRID (3 COLUMNS) -->
+        <div class="luxury-metrics-grid">
+            
+            <!-- CARD 1: ECO SCORE -->
+            <div class="luxury-card">
+                <div class="luxury-card-header">
+                    <span class="luxury-card-label">ECO SCORE</span>
+                    <span class="luxury-card-arrow">nearrow;</span>
+                </div>
+                <div class="luxury-card-value">
+                    <span class="huge-score-text" style="color: {{ score_color }};">{{ eco_score }}</span><span class="max-score-marker"> /100</span>
+                </div>
+                <div class="luxury-card-footer-lbl">{{ score_grade }}</div>
+            </div>
+
+            <!-- CARD 2: ANNUAL EMISSIONS -->
+            <div class="luxury-card">
+                <div class="luxury-card-header">
+                    <span class="luxury-card-label">ANNUAL EMISSIONS</span>
+                </div>
+                <div class="luxury-card-value">
+                    <span class="compact-metric-text">{{ annual_emissions }} <span class="inline-unit-text">kg CO₂e</span></span>
+                </div>
+                <div class="luxury-card-footer-lbl">≈ {{ tonnes_per_year }} tonnes per year</div>
+            </div>
+
+            <!-- CARD 3: MONTHLY AVERAGE -->
+            <div class="luxury-card">
+                <div class="luxury-card-header">
+                    <span class="luxury-card-label">MONTHLY AVERAGE</span>
+                </div>
+                <div class="luxury-card-value">
+                    <span class="compact-metric-text">{{ monthly_average }} <span class="inline-unit-text">kg</span></span>
+                </div>
+                <div class="luxury-card-footer-lbl">Roughly your CO₂e footprint per month</div>
+            </div>
+
+        </div>
+
+          <!-- THE UPGRADED SPLIT CATEGORY BREAKDOWN & CHART GRID SECTION -->
+        <div class="luxury-split-chart-wrapper">
+            
+            <!-- LEFT PANEL: THE DYNAMIC DONUT GRAPH CHART -->
+            <div class="donut-chart-panel">
+                <div class="chart-section-title">CATEGORY BREAKDOWN</div>
+                
+                <div class="donut-visual-container">
+                    <!-- Pure CSS dynamic conic gradient powered by backend percentages -->
+                    <div class="donut-graphic-circle" style="background: conic-gradient(
+                        #1B4332 0% {{ trans_pct }}%, 
+                        #556B58 {{ trans_pct }}% {{ trans_pct + elec_pct }}%, 
+                        #C45A46 {{ trans_pct + elec_pct }}% 100%
+                    );">
+                        <div class="donut-hole-center"></div>
+                    </div>
+                </div>
+
+                <!-- Chart Colors Legend Indicators -->
+                <div class="donut-legend-row">
+                    <div class="legend-item"><span class="legend-dot dot-diet"></span>Diet</div>
+                    <div class="legend-item"><span class="legend-dot dot-elec"></span>Electricity</div>
+                    <div class="legend-item"><span class="legend-dot dot-trans"></span>Transport</div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: HORIZONTAL METRICS PROGRESS TRACK STACK -->
+            <div class="progress-bars-panel">
+                <div class="chart-section-title">BY CATEGORY (KG CO₂E / YEAR)</div>
+                
+                <div class="horizontal-chart-stack">
+                    <!-- ROW 1: TRANSPORT -->
+                    <div class="chart-grid-row">
+                        <div class="chart-row-label">🚗 Transport</div>
+                        <div class="chart-row-track-bar">
+                            <div class="chart-row-fill" style="width: {{ trans_pct }}%; background-color: #1B4332;"></div>
+                        </div>
+                        <div class="chart-row-metrics"><strong>{{ transport_total }} kg</strong> · {{ trans_pct }}%</div>
+                    </div>
+
+                    <!-- ROW 2: ELECTRICITY -->
+                    <div class="chart-grid-row">
+                        <div class="chart-row-label">⚡ Electricity</div>
+                        <div class="chart-row-track-bar">
+                            <div class="chart-row-fill" style="width: {{ elec_pct }}%; background-color: #556B58;"></div>
+                        </div>
+                        <div class="chart-row-metrics"><strong>{{ electricity_total }} kg</strong> · {{ elec_pct }}%</div>
+                    </div>
+
+                    <!-- ROW 3: DIET & LIFESTYLE -->
+                    <div class="chart-grid-row">
+                        <div class="chart-row-label">🍽️ Diet</div>
+                        <div class="chart-row-track-bar">
+                            <div class="chart-row-fill" style="width: {{ diet_pct }}%; background-color: #C45A46;"></div>
+                        </div>
+                        <div class="chart-row-metrics"><strong>{{ diet_lifestyle_total }} kg</strong> · {{ diet_pct }}%</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- RECS PLAN GRID BLOCK (2 COLUMNS) -->
+        <div class="luxury-plan-section">
+            <div class="luxury-plan-title-row">
+                <span class="plan-header-icon">💡</span>
+                <h2>Your personalized plan</h2>
+            </div>
+            
+            <div class="luxury-plan-grid-array">
+                
+                <!-- CARD 1 -->
+                <div class="recommendation-grid-card">
+                    <div class="rec-card-header-flex">
+                        <span class="rec-category-badge">🚗 TRANSPORT</span>
+                        <span class="rec-impact-pill impact-high">high impact</span>
+                    </div>
+                    <h3>Switch to Public Transit or Carpooling</h3>
+                    <p>Replace 50% of your car journeys with public transit or carpooling to save approximately 550 kg CO₂e annually. Focus on commute trips first.</p>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="recommendation-grid-card">
+                    <div class="rec-card-header-flex">
+                        <span class="rec-category-badge">🚗 TRANSPORT</span>
+                        <span class="rec-impact-pill impact-high">high impact</span>
+                    </div>
+                    <h3>Consider a Hybrid or Electric Vehicle</h3>
+                    <p>Transitioning to an EV for your 6,240 km annual driving could reduce transport emissions by 1,000+ kg CO₂e per year.</p>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="recommendation-grid-card">
+                    <div class="rec-card-header-flex">
+                        <span class="rec-category-badge">⚡ ELECTRICITY</span>
+                        <span class="rec-impact-pill impact-medium">medium impact</span>
+                    </div>
+                    <h3>Increase Renewable Energy Share</h3>
+                    <p>Upgrade to a high renewable energy plan (65%+) to cut electricity emissions by approximately 140 kg CO₂e annually.</p>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="recommendation-grid-card">
+                    <div class="rec-card-header-flex">
+                        <span class="rec-category-badge">🍽️ DIET</span>
+                        <span class="rec-impact-pill impact-medium">medium impact</span>
+                    </div>
+                    <h3>Adopt Meatless Mondays and Tuesdays</h3>
+                    <p>Reducing meat consumption by 2 days per week could save 200-300 kg CO₂e annually while maintaining nutritional balance.</p>
+                </div>
+
+                <!-- CARD 5 -->
+                <div class="recommendation-grid-card">
+                    <div class="rec-card-header-flex">
+                        <span class="rec-category-badge">🚗 TRANSPORT</span>
+                        <span class="rec-impact-pill impact-medium">medium impact</span>
+                    </div>
+                    <h3>Offset Unavoidable Flight Emissions</h3>
+                    <p>Your annual flights generate continuous footprints. Consider verified carbon offset programs or replace long flights with train travel alternatives when possible.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FOOTER ELEMENT SET -->
+        <div class="luxury-footer-block">
+            <p class="luxury-quote">"Small, steady changes — that's how footprints shrink."</p>
+            <button class="luxury-footer-action-btn" onclick="window.location.href='/assessment'">Retake Assessment</button>
+            <div class="luxury-watermark">Built with ❤️ by Nithika</div>
+        </div>
+
+    </div>
+
+</body>
+</html>

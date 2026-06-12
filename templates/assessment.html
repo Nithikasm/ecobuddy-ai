@@ -72,8 +72,51 @@ const questions = [
         question: "How much electricity do you use daily?",
         subtext: "Approximate usage in kWh per day.",
         options: ["< 5 kWh", "5–10 kWh", "10–20 kWh", "> 20 kWh"]
+    },
+    {
+        icon: "🥩",
+        question: "What does your typical daily diet look like?",
+        subtext: "Food production is a major contributor to carbon emissions.",
+        options: ["Frequent Meat", "Balanced Diet", "Vegetarian", "Vegan"]
+    },
+    {
+        icon: "✈️",
+        question: "How many flights do you take each year?",
+        subtext: "Includes both domestic and international roundtrips.",
+        options: ["0 flights", "1–2 flights", "3–5 flights", "More than 5"]
+    },
+    {
+        icon: "🔥",
+        question: "What is the primary heating source in your home?",
+        subtext: "The energy type used to keep your living space warm.",
+        options: ["Natural Gas", "Electricity", "Heating Oil", "Biomass / Solar"]
+    },
+    {
+        icon: "🛍️",
+        question: "How often do you buy new consumer goods?",
+        subtext: "Includes clothing, electronics, and household items.",
+        options: ["Very Often", "Moderate", "Rarely", "Almost Never"]
+    },
+    {
+        icon: "🗑️",
+        question: "How much waste does your household generate?",
+        subtext: "Your typical weekly trash output compared to neighbors.",
+        options: ["Above Average", "Average", "Below Average", "Very Little"]
+    },
+    {
+        icon: "♻️",
+        question: "How strictly do you sort recycling and compost?",
+        subtext: "Proper sorting diverts high-emission waste from landfills.",
+        options: ["Everything", "Most Things", "Occasionally", "Do Not Sort"]
+    },
+    {
+        icon: "💧",
+        question: "What are your household water consumption habits?",
+        subtext: "Reflects laundry frequency, lawn watering, and shower times.",
+        options: ["High Usage", "Moderate Usage", "Conscious Saving"]
     }
 ];
+
 
 /* =========================
    STATE
@@ -96,12 +139,17 @@ function loadQuestion() {
     document.getElementById("step-num").innerText = currentStep + 1;
 
     // progress bar
-    let progress = ((currentStep + 1) / 9) * 100;
+    let progress = ((currentStep + 1) / questions.length) * 100;
     document.getElementById("progress").style.width = progress + "%";
 
-    // reset
-    selectedAnswer = null;
-    document.getElementById("continueBtn").disabled = true;
+    // Check if there is an existing answer saved for this step
+    if (answers[currentStep] !== undefined) {
+        selectedAnswer = answers[currentStep];
+        document.getElementById("continueBtn").disabled = false;
+    } else {
+        selectedAnswer = null;
+        document.getElementById("continueBtn").disabled = true;
+    }
 
     // render options
     const container = document.getElementById("options");
@@ -112,11 +160,17 @@ function loadQuestion() {
         btn.className = "option";
         btn.innerText = opt;
 
+        // Re-apply the active visual state if it matches our saved selection
+        if (opt === selectedAnswer) {
+            btn.classList.add("selected");
+        }
+
         btn.onclick = () => selectOption(btn, opt);
 
         container.appendChild(btn);
     });
 }
+
 
 /* =========================
    SELECT OPTION
@@ -145,10 +199,24 @@ function nextStep() {
         currentStep++;
         loadQuestion();
     } else {
-        console.log("FINAL ANSWERS:", answers);
-        alert("Assessment Complete!");
+        // Create an automated form pipeline submission on step 9 completion
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/result';
+
+        for (const key in answers) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = `question_${key}`;
+            hiddenField.value = answers[key];
+            form.appendChild(hiddenField);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
     }
 }
+
 
 function prevStep() {
     if (currentStep > 0) {
