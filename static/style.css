@@ -342,8 +342,38 @@ button[type="submit"] {
 .assessment-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items:center;
+    position: relative;
 }
+
+.header-left,
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+    color: #5A6560;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.home-btn svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.home-icon:hover {
+    transform: scale(1.15);
+}
+
 
 .step-indicator {
     font-size: 13px;
@@ -773,6 +803,7 @@ body.premium-report-body {
     letter-spacing: -0.5px;
     display: flex;
     align-items: center;
+    justify-content:space-between;
 }
 
 .logo-leaf-icon {
@@ -825,6 +856,36 @@ body.premium-report-body {
     color: #4A4A4A;
     line-height: 1.6;
     margin: 0;
+}
+
+.header-left,
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+    color: #5A6560;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+.home-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.home-btn:hover {
+    color: #1B4332;
+    transform: translateX(-2px);
 }
 
 /* 3-Column Key Metrics Grid */
