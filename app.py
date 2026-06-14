@@ -1,7 +1,34 @@
-from flask import Flask, render_template, request, redirect, url_for
-
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = "ecobuddy_secret_key"
+
+def init_db():
+    conn = sqlite3.connect('ecobuddy.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS reports (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            eco_score INTEGER,
+            score_grade TEXT,
+            annual_emissions INTEGER,
+            monthly_average INTEGER,
+            tonnes_per_year REAL,
+            transport_total INTEGER,
+            electricity_total INTEGER,
+            diet_lifestyle_total INTEGER,
+            trans_pct INTEGER,
+            elec_pct INTEGER,
+            diet_pct INTEGER,
+            saved_date TEXT
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
 
 @app.route('/')
 def home():
@@ -104,6 +131,22 @@ def result():
     else:
         score_grade = "Needs Improvement"
         score_color = "#C45A46"
+    
+    report_data = {
+    "eco_score": eco_score,
+    "score_grade": score_grade,
+    "annual_emissions": annual_emissions,
+    "monthly_average": monthly_average,
+    "tonnes_per_year": tonnes_per_year,
+    "transport_total": transport_total,
+    "electricity_total": electricity_total,
+    "diet_lifestyle_total": diet_lifestyle_total,
+    "trans_pct": trans_pct,
+    "elec_pct": elec_pct,
+    "diet_pct": diet_pct
+}
+ 
+    session['report_data'] = report_data
 
     return render_template(
         'result.html',
@@ -121,8 +164,134 @@ def result():
         diet_pct=diet_pct,
         trans_bar_color=trans_bar_color,
         elec_bar_color=elec_bar_color,
-        diet_bar_color=diet_bar_color
+        diet_bar_color=diet_bar_color,
+        report_data=report_data,
+        is_saved_report=False,
+        saved_date=None,
     )
 
+@app.route('/save_report', methods=['POST'])
+def save_report():
+
+    report = session.get('report_data')
+
+    if not report:
+        return redirect(url_for('home'))
+
+    conn = sqlite3.connect('ecobuddy.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO reports (
+            eco_score,
+            score_grade,
+            annual_emissions,
+            monthly_average,
+            tonnes_per_year,
+            transport_total,
+            electricity_total,
+            diet_lifestyle_total,
+            trans_pct,
+            elec_pct,
+            diet_pct,
+            saved_date
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        report['eco_score'],
+        report['score_grade'],
+        report['annual_emissions'],
+        report['monthly_average'],
+        report['tonnes_per_year'],
+        report['transport_total'],
+        report['electricity_total'],
+        report['diet_lifestyle_total'],
+        report['trans_pct'],
+        report['elec_pct'],
+        report['diet_pct'],
+        datetime.now().strftime("%d %b %Y, %H:%M")
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('home'))
+@app.route('/history')
+def history():
+
+        conn = sqlite3.connect('ecobuddy.db')
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT *
+            FROM reports
+            ORDER BY id DESC
+        ''')
+
+        reports = cursor.fetchall()
+
+        conn.close()
+
+        return render_template(
+            'history.html',
+            reports=reports
+    )
+
+@app.route('/report/<int:report_id>')
+def view_report(report_id):
+
+    conn = sqlite3.connect('ecobuddy.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'SELECT * FROM reports WHERE id = ?',
+        (report_id,)
+    )
+
+    report = cursor.fetchone()
+
+    conn.close()
+
+    if report is None:
+        return "Report not found", 404
+
+    return render_template(
+    'result.html',
+    eco_score=report['eco_score'],
+    score_grade=report['score_grade'],
+
+    # Recalculate score color
+    score_color=(
+        "#1A3020" if report['eco_score'] >= 80
+        else "#556B58" if report['eco_score'] >= 60
+        else "#C47A46" if report['eco_score'] >= 40
+        else "#C45A46"
+    ),
+
+    annual_emissions="{:,}".format(report['annual_emissions']),
+    monthly_average="{:,}".format(report['monthly_average']),
+    tonnes_per_year=report['tonnes_per_year'],
+
+    transport_total="{:,}".format(report['transport_total']),
+    electricity_total="{:,}".format(report['electricity_total']),
+    diet_lifestyle_total="{:,}".format(report['diet_lifestyle_total']),
+
+    trans_pct=report['trans_pct'],
+    elec_pct=report['elec_pct'],
+    diet_pct=report['diet_pct'],
+
+    trans_bar_color="#1B4332",
+    elec_bar_color="#556B58",
+    diet_bar_color="#C45A46",
+
+    report_data=dict(report),
+
+    is_saved_report=True,
+    saved_date=report['saved_date'],
+)
+
 if __name__ == '__main__':
+    init_db()
     app.run(debug=True)

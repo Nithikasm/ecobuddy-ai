@@ -200,12 +200,35 @@
 
         <!-- FOOTER ELEMENT SET -->
         <div class="luxury-footer-block">
-            <p class="luxury-quote">"Small, steady changes — that's how footprints shrink."</p>
-            <button class="luxury-footer-action-btn" onclick="window.location.href='/assessment'">Retake Assessment</button>
-            <div class="luxury-watermark">Built with ❤️ by Nithika</div>
-        </div>
 
+            <p class="luxury-quote">"Small, steady changes — that's how footprints shrink."</p>
+            <div class="footer-actions">
+
+    {% if not is_saved_report %}
+
+        <form action="/save_report" method="POST">
+            <button type="submit" class="save-report-btn">
+                Save Report
+            </button>
+            </form>
+
+            {% else %}
+
+            <div class="saved-report-badge">
+                ✓ Saved on {{ saved_date }}
+            </div>
+
+        {% endif %}
+        </div>
+        </div>
+        <div class="luxury-watermark">
+            Built with ❤️ by Nithika
+        </div>
     </div>
+
+</div>
+
+
 
 </body>
 </html>

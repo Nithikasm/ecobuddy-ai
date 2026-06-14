@@ -1189,7 +1189,6 @@ body.premium-report-body {
 
 /* Footer Section Positioning Base */
 .luxury-footer-block {
-    text-align: center;
     margin-top: 3rem;
     border-top: 1px solid #EAEAEA;
     padding-top: 3rem;
@@ -1200,28 +1199,56 @@ body.premium-report-body {
     font-style: italic;
     color: #767670;
     margin-bottom: 1.5rem;
+    text-align: center;
+}
+/* Target the form wrapper and completely clear out the container styling */
+.footer-actions {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border: none !important;
+    display: flex;
+    justify-content: center; /* Keeps the button centered nicely under the quote */
 }
 
-.luxury-footer-action-btn {
-    padding: 0.75rem 2rem;
-    background-color: #111111;
-    color: #FFFFFF;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 99px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin: 0 auto 2rem auto;
-    display: block;
-}
-
-.luxury-footer-action-btn:hover {
-    background-color: #333333;
+/* Ensure the form element fits tightly around the button button */
+.footer-actions form {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
 }
 
 .luxury-watermark {
+    text-align: right;
     font-size: 11px;
     color: #9A9A95;
 }
+
+.save-report-btn {
+   background: #111111;
+    color: #FFFFFF;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.save-report-btn:hover {
+    background-color: #2D6A4F;
+    transform: translateY(-1px);
+}
+
+.saved-report-badge {
+    background-color: #E8F3EC;
+    color: #1B4332;
+    padding: 12px 24px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #D5E8DB;
+}
+
 

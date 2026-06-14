@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saved Reports - EcoBuddy</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="premium-report-body">
+
+    <div class="luxury-report-wrapper">
+
+        <div class="luxury-navbar">
+
+            <div class="luxury-logo">
+                🌿 EcoBuddy
+            </div>
+
+            <a href="/" class="subtle-retake-btn">
+                Home
+            </a>
+
+        </div>
+
+        <h1>Saved Reports</h1>
+
+        {% for report in reports %}
+
+        <a href="/report/{{ report['id'] }}"
+   target="_blank"
+   style="text-decoration: none; color: inherit;">
+
+    <div class="recommendation-grid-card"
+         style="margin-bottom: 20px; cursor: pointer;">
+
+        <h3>
+            Eco Score: {{ report['eco_score'] }}
+        </h3>
+
+        <p>
+            {{ report['score_grade'] }}
+        </p>
+
+        <p>
+            {{ report['saved_date'] }}
+        </p>
+
+    </div>
+
+</a>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>
