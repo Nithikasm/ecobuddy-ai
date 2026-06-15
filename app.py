@@ -38,8 +38,48 @@ def home():
 def assessment():
     return render_template('assessment.html')
 
-@app.route('/result', methods=['POST'])
+@app.route('/result', methods=['GET', 'POST'])
 def result():
+    if request.method == 'GET':
+        report = session.get('report_data')
+
+        if not report:
+            return redirect(url_for('home'))
+        
+        eco_score = report['eco_score']
+        score_grade = report['score_grade']
+
+        if eco_score >= 80:
+            score_color = "#1A3020"
+        elif eco_score >= 60:
+            score_color = "#556B58"
+        elif eco_score >= 40:
+            score_color = "#C47A46"
+        else:
+            score_color = "#C45A46"
+
+        return render_template(
+            'result.html',
+            eco_score=eco_score,
+            score_grade=score_grade,
+            score_color=score_color,
+            annual_emissions="{:,}".format(report['annual_emissions']),
+            tonnes_per_year=report['tonnes_per_year'],
+            monthly_average="{:,}".format(report['monthly_average']),
+            transport_total="{:,}".format(report['transport_total']),
+            electricity_total="{:,}".format(report['electricity_total']),
+            diet_lifestyle_total="{:,}".format(report['diet_lifestyle_total']),
+            trans_pct=report['trans_pct'],
+            elec_pct=report['elec_pct'],
+            diet_pct=report['diet_pct'],
+            trans_bar_color="#1B4332",
+            elec_bar_color="#556B58",
+            diet_bar_color="#C45A46",
+            report_data=report,
+            is_saved_report=False,
+            saved_date=None,
+            show_toast=session.pop('report_saved', False)
+        )
     # Gather responses safely for all 9 questions
     q0 = request.form.get('question_0', 'Walk')
     q1 = request.form.get('question_1', '< 5 kWh')
@@ -168,6 +208,7 @@ def result():
         report_data=report_data,
         is_saved_report=False,
         saved_date=None,
+        show_toast=session.pop('report_saved', False)
     )
 
 @app.route('/save_report', methods=['POST'])
@@ -215,7 +256,8 @@ def save_report():
     conn.commit()
     conn.close()
 
-    return redirect(url_for('home'))
+    session['report_saved'] = True
+    return redirect(url_for('result'))
 @app.route('/history')
 def history():
 

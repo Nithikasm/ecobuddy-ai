@@ -135,6 +135,83 @@ body {
     cursor: pointer;
     font-size: 16px;
 }
+/* HOMEPAGE SIDEBAR */
+
+.homepage-sidebar {
+    position: fixed;
+    top: 80px;
+    left: 10px;
+
+    width: 60px;
+    overflow: hidden;
+
+    background: rgba(241, 247, 244, 0.85);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 6px;
+
+    padding: 10px 0;
+
+    display: flex;
+    flex-direction: column;
+
+    transition: width 0.3s ease;
+
+    z-index: 1000;
+}
+
+.homepage-sidebar:hover {
+    width: 180px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 16px 20px;
+
+    color: #1A1A1A;
+    text-decoration: none;
+
+    transition: background 0.2s ease;
+}
+
+.sidebar-item:hover {
+    background: rgba(27, 67, 50, 0.06);
+    border-left: 3px solid #1B4332;
+    padding-left: 17px;
+}
+
+
+.sidebar-icon {
+    min-width: 18px;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: #1B4332;
+}
+
+.sidebar-text {
+    white-space: nowrap;
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+.sidebar-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.06);
+    margin: 0 12px;
+}
+
+.homepage-sidebar:hover .sidebar-text {
+    opacity: 1;
+}
+
+.sidebar-item:hover .sidebar-text {
+    opacity: 1;
+}
 
 
 /* FORM */
@@ -1251,4 +1328,41 @@ body.premium-report-body {
     border: 1px solid #D5E8DB;
 }
 
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+
+    background: #1B4332;
+    color: white;
+
+    padding: 14px 22px;
+    border-radius: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+    z-index: 9999;
+
+    animation: toastFade 3s ease forwards;
+}
+
+@keyframes toastFade {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    10%, 80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
 
