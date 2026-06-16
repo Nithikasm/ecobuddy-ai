@@ -14,11 +14,23 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px 60px;
+    position: relative; /* Essential anchor for absolute centering */
 }
+
 
 .logo {
     font-size: 20px;
     font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    
+}
+
+.logo img, .logo svg {
+    vertical-align: middle;
+    position: relative;
+    top: 0px; /* Adjust this pixel value until it looks perfect */
 }
 
 .nav-btn {
@@ -139,7 +151,7 @@ body {
 
 .homepage-sidebar {
     position: fixed;
-    top: 80px;
+    top: 60px;
     left: 10px;
 
     width: 60px;
@@ -168,37 +180,31 @@ body {
 .sidebar-item {
     display: flex;
     align-items: center;
-    gap: 14px;
-
-    padding: 16px 20px;
-
+    gap: 8px;
+    padding: 10px 20px;
     color: #1A1A1A;
     text-decoration: none;
-
-    transition: background 0.2s ease;
+    border-radius: 20px;
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .sidebar-item:hover {
     background: rgba(27, 67, 50, 0.06);
-    border-left: 3px solid #1B4332;
-    padding-left: 17px;
+    transform: translateY(-1px);
 }
 
 
 .sidebar-icon {
-    min-width: 18px;
-
-    font-size: 14px;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
     color: #1B4332;
 }
 
 .sidebar-text {
-    white-space: nowrap;
-    opacity: 0;
-
-    transition: opacity 0.2s ease;
+    font-size: 15px;
+    font-weight: 500;
 }
+
 .sidebar-divider {
     height: 1px;
     background: rgba(0,0,0,0.06);
@@ -212,6 +218,15 @@ body {
 .sidebar-item:hover .sidebar-text {
     opacity: 1;
 }
+
+
+.footer-right svg {
+    vertical-align: middle;
+    position: relative;
+    top: 0.5px; /* Adjust this value up or down until it aligns perfectly */
+}
+
+
 
 
 /* FORM */
@@ -1311,6 +1326,12 @@ body.premium-report-body {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
+}
+
+.luxury-watermark  svg {
+    vertical-align: middle;
+    position: relative;
+    top: 0.25px; /* Adjust this value up or down until it aligns perfectly */
 }
 
 .save-report-btn:hover {
