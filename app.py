@@ -4,11 +4,12 @@ import uuid
 from datetime import datetime
 
 app = Flask(__name__)
+app.config['DATABASE'] = 'ecobuddy.db'
 app.secret_key = "ecobuddy_secret_key"
 
 
 def init_db():
-    conn = sqlite3.connect('ecobuddy.db')
+    conn = sqlite3.connect(app.config['DATABASE'])
     cursor = conn.cursor()
 
     # Added session_id TEXT to the schema layout
@@ -284,7 +285,7 @@ def save_report():
     if not report:
         return redirect(url_for('home'))
 
-    conn = sqlite3.connect('ecobuddy.db')
+    conn = sqlite3.connect(app.config['DATABASE'])
     cursor = conn.cursor()
 
     # Added session_id column and value to the INSERT statement
@@ -330,7 +331,7 @@ def save_report():
 
 @app.route('/history')
 def history():
-    conn = sqlite3.connect('ecobuddy.db')
+    conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
@@ -350,7 +351,7 @@ def history():
 
 @app.route('/report/<int:report_id>')
 def view_report(report_id):
-    conn = sqlite3.connect('ecobuddy.db')
+    conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
