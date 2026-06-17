@@ -1,11 +1,25 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import uuid
+import os
 from datetime import datetime
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'ecobuddy.db'
-app.secret_key = "ecobuddy_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY", "dev_only_insecure_key")
+
+def get_db():
+    conn = sqlite3.connect(app.config.get('DATABASE', 'ecobuddy.db'))
+    conn.row_factory = sqlite3.Row
+    return conn
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'no-referrer'
+    return response
 
 
 def init_db():
@@ -399,4 +413,6 @@ def view_report(report_id):
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
